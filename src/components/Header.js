@@ -7,8 +7,8 @@ const Header = ({ onSelect }) => {
     <div className="container">
       <div className="logo">Магазин TTSALE.RU</div>
       <div className="links">
-        <a href="https://www.ozon.ru/seller/ttsale-1044608/" class="link">
-          Магазин в ОЗОН
+     <a href="https://www.ozon.ru/seller/ttsale-1044608/" class="link">
+        Магазин в ОЗОН (Ссылка)
         </a>
       </div>
       <div className="address">
@@ -22,11 +22,6 @@ const Header = ({ onSelect }) => {
             (Cсылка)
           </a>
         </p>
-      </div>
-      <div class="whatsapp">
-          <a href="https://wa.me/79013014363" class="link">
-            Whatsapp +79013014363
-          </a>
       </div>
   </div>
   );

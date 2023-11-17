@@ -69,7 +69,7 @@ body {
 }
 
 .logo {
-  font-size: 1.5em;
+  font-size: 1em;
   font-weight: bold;
 }
 
@@ -99,7 +99,15 @@ body {
   margin-top: 5px;
   text-align: center;
 }
-
+#root > div > div.header > div.dealer-info > p {
+  margin-bottom: 0!important;
+}
+#root > div > div.header > div.container > div.address > p,
+#root > div > div.fixed-bottom.cost-bar > div.footer > div > p,
+#root > div > div.fixed-bottom.cost-bar > div.container.col-6 > p
+{
+  margin-bottom: 0!important;
+}
 @media screen and (max-width: 600px) {
   .links {
     flex-direction: column;
@@ -107,7 +115,7 @@ body {
   }
 }
 .cost-bar {
-  background-color: #000; /* Цвет плашки */
+  background-color: #333; /* Цвет плашки */
   padding: 5px; /* Внутренний отступ */
   display: flex;
   justify-content: space-between;

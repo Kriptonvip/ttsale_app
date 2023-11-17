@@ -14,9 +14,12 @@ const ThicknessColorSelector = ({
     if (selectedThickness && selectedColor) {
       onSelect('thickness', selectedThickness);
       onSelect('color', selectedColor);
-      onSelect('quantity', quantity);
+      onSelect('quantity', quantity); 
       // Переход на следующий шаг
-    } else {
+    } else if (!thicknessOptions && !colorOptions){
+      onSelect('quantity', quantity);
+      onSelect('color', true);
+    } else{
       alert('Пожалуйста, выберите толщину, цвет и количество');
     }
   };
@@ -28,11 +31,9 @@ const ThicknessColorSelector = ({
 
   return (
     <div className="container mt-2">
-      <h3 className="text-center">
-        Выберите толщину, цвет и количество
-      </h3>
+     
       <div className="row justify-content-center">
-        <div className="col-12 text-center">
+      {thicknessOptions ? (<div className="col-12 text-center">
           <h4>Толщина:</h4>
           {thicknessOptions.map((thickness) => (
             <button
@@ -44,8 +45,8 @@ const ThicknessColorSelector = ({
               {thickness}
             </button>
           ))}
-        </div>
-        <div className="col-12 text-center">
+        </div>): ''}
+        {colorOptions ? (<div className="col-12 text-center">
           <h4>Цвет:</h4>
           {colorOptions.map((color) => (
             <button
@@ -58,7 +59,8 @@ const ThicknessColorSelector = ({
               {color.split(':')[0]}
             </button>
           ))}
-        </div>
+        </div>): ''}
+     
         <div className="row justify-content-center mt-3 col-12 text-center">
           <h4>Количество:</h4>
           {[1, 2, 3, 4].map((quantityOption) => (

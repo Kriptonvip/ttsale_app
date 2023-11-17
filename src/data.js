@@ -34,8 +34,38 @@ const data = {
       },
     },
     'Основания': {
-      Butterfly: ['Korbel', 'Viscaria', 'Timo boll'],
-      Donic: ['Carbon', 'Skachkov'],
+      Butterfly:{
+        'series': {
+          'P. KORBEL (JAPAN)': {
+            models: ['FL', 'ST'],
+            price: 10780,
+          },
+          'P. KORBEL SK7': {
+            models: ['FL', 'ST', 'AN'],
+            price: 10120,
+          },
+          'P. KORBEL OFF': {
+            models: ['FL', 'ST', 'AN'],
+            price: 5720,
+          },
+        },
+      },
+      Donic:{
+        'series': {
+          'SKACHKOV CARBON': {
+            models: ['FL', 'ST', 'AN', 'PEN CP'],
+            price: 7250,
+          },
+          'ORIGINAL TRUE CARBON': {
+            models: ['FL', 'ST', 'AN'],
+            price: 11000,
+          },
+          'APPELGREN ALLPLAY': {
+            models: ['FL', 'AN'],
+            price: 3625,
+          },
+        },
+      },
     },
   };
   export default data;

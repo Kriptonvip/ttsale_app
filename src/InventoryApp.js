@@ -45,7 +45,6 @@ const InventoryApp = ({ data }) => {
 
   const handleSelectOptions = (type, value) => {
     setSelectedOptions((prevOptions) => ({ ...prevOptions, [type]: value }));
-    console.log(type, value);
     if (type === 'quantity') {
       setQuantity(value);
     }
@@ -75,6 +74,7 @@ const InventoryApp = ({ data }) => {
         // Успешный ответ от сервера
         const result = await response.text();
         alert(result);
+        handleReset();
       } else {
         // Обработка ошибок
         alert('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.');
@@ -144,9 +144,10 @@ const InventoryApp = ({ data }) => {
         <UserInfoForm onSubmit={handleUserInfoSubmit} />
       )}
       <div className="fixed-bottom cost-bar">
-        <div className="container">
-          <p className="text-center">Общая стоимость: {totalPrice * quantity} руб.</p>
+        <div className="container col-6">
+          <p className="text-center">Цена: {totalPrice * quantity} руб.</p>
         </div>
+        <Footer />
       </div>
       <div className="container mt-3">
         <div className="d-flex justify-content-center">
@@ -166,7 +167,7 @@ const InventoryApp = ({ data }) => {
       <div className="container mb-1 mt-2">
         <div className="order-summary">
           <h5 className="text-center mb-1">Состав заказа</h5>
-          <table className="table">
+          <table className="table mb-0">
             <tbody>
               <tr>
                 <td>Тип:</td>
@@ -204,7 +205,7 @@ const InventoryApp = ({ data }) => {
           </table>
         </div>
       </div>
-      <Footer />
+    
     </div>
   );
 };

@@ -6,6 +6,23 @@ const UserInfoForm = ({ onSubmit }) => {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({});
 
+  const handlePhoneChange = (e) => {
+    // Позволяет вводить только цифры
+    const inputValue = e.target.value.replace(/[^\d]/g, '');
+    setPhone(inputValue);
+  };
+
+  const handlePhoneBlur = () => {
+    // Проверка, если введены только цифры
+    const isValid = /^\d+$/.test(phone);
+    if (!isValid) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: 'Телефон должен содержать только цифры',
+      }));
+    }
+  };
+
   const handleSubmit = () => {
     // Проверка валидности данных перед отправкой
     const validationErrors = {};
@@ -16,6 +33,8 @@ const UserInfoForm = ({ onSubmit }) => {
 
     if (!phone.trim()) {
       validationErrors.phone = 'Телефон обязателен';
+    } else if (!/^\d+$/.test(phone)) {
+      validationErrors.phone = 'Телефон должен содержать только цифры';
     }
 
     // Другие проверки, если необходимо
@@ -35,7 +54,7 @@ const UserInfoForm = ({ onSubmit }) => {
       <div className="row justify-content-center">
         <label className="col-3">Имя:</label>
         <input
-          className={`col-5 ${errors.name ? 'is-invalid' : ''}`}
+          className={`col-8 ${errors.name ? 'is-invalid' : ''}`}
           type="text"
           onChange={(e) => setName(e.target.value)}
         />
@@ -44,15 +63,17 @@ const UserInfoForm = ({ onSubmit }) => {
       <div className="row justify-content-center">
         <label className="col-3">Телефон:</label>
         <input
-          className={`col-5 ${errors.phone ? 'is-invalid' : ''}`}
-          type="text"
-          onChange={(e) => setPhone(e.target.value)}
+          className={`col-8 ${errors.phone ? 'is-invalid' : ''}`}
+          type="tel"
+          value={phone}
+          onChange={handlePhoneChange}
+          onBlur={handlePhoneBlur}
         />
         {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
       </div>
       <div className="row justify-content-center">
         <label className="col-3">Email:</label>
-        <input className="col-5" type="email" onChange={(e) => setEmail(e.target.value)} />
+        <input className="col-8" type="email" onChange={(e) => setEmail(e.target.value)} />
         {/* Добавьте аналогичные проверки для email, если необходимо */}
       </div>
       <button className="btn btn-primary mt-3 mx-auto d-block" onClick={handleSubmit}>
