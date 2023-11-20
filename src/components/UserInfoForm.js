@@ -55,7 +55,7 @@ const UserInfoForm = ({ onSubmit }) => {
         <label className="col-3">Имя:</label>
         <input
           className={`col-8 ${errors.name ? 'is-invalid' : ''}`}
-          type="text"
+          type="name"
           onChange={(e) => setName(e.target.value)}
         />
         {errors.name && <div className="invalid-feedback">{errors.name}</div>}

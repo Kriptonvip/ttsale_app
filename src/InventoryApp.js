@@ -16,8 +16,8 @@ const InventoryApp = ({ data }) => {
   const [selectedOptions, setSelectedOptions] = useState({
     thickness: '',
     color: '',
+    quantity: 1,
   });
-  const [quantity, setQuantity] = useState(1);
   const [userInfo, setUserInfo] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [displayedStep, setDisplayedStep] = useState(1);
@@ -45,10 +45,6 @@ const InventoryApp = ({ data }) => {
 
   const handleSelectOptions = (type, value) => {
     setSelectedOptions((prevOptions) => ({ ...prevOptions, [type]: value }));
-    if (type === 'quantity') {
-      setQuantity(value);
-    }
-    setDisplayedStep(6);
   };
 
   const handleUserInfoSubmit = async (info) => {
@@ -62,7 +58,7 @@ const InventoryApp = ({ data }) => {
     formData.append('email', info.email);
     formData.append('phone', info.phone);
     formData.append('shipping', 'some_shipping_data'); // Замените на ваши данные
-    formData.append('amount', totalPrice * quantity); // Замените на ваши данные
+    formData.append('amount', totalPrice * selectedOptions['quantity']); // Замените на ваши данные
   
     try {
       const response = await fetch('https://ttsale.ru/mail1.php', {
@@ -90,8 +86,7 @@ const InventoryApp = ({ data }) => {
     setSelectedBrand('');
     setSelectedSeries('');
     setSelectedModel('');
-    setSelectedOptions({ thickness: '', color: '' });
-    setQuantity(1);
+    setSelectedOptions({ thickness: '', color: '', quantity : ''});
     setUserInfo(null);
     setTotalPrice(0);
     setDisplayedStep(1);
@@ -130,13 +125,18 @@ const InventoryApp = ({ data }) => {
       )}
       {displayedStep === 5 && selectedModel && (
         <ThicknessColorSelector
+          options = {selectedOptions}
           thicknessOptions={
             data[selectedType][selectedBrand].series[selectedSeries].thickness
           }
           colorOptions={
             data[selectedType][selectedBrand].series[selectedSeries].color
           }
+          quantityOptions={
+            data[selectedType][selectedBrand].series[selectedSeries].quantity
+          }
           onSelect={handleSelectOptions}
+          nexStep = {setDisplayedStep}
         />
       )}
 
@@ -145,7 +145,7 @@ const InventoryApp = ({ data }) => {
       )}
       <div className="fixed-bottom cost-bar">
         <div className="container col-6">
-          <p className="text-center">Цена: {totalPrice * quantity} руб.</p>
+          <p className="text-center">Цена: {totalPrice * selectedOptions['quantity']} руб.</p>
         </div>
         <Footer />
       </div>
@@ -170,36 +170,16 @@ const InventoryApp = ({ data }) => {
           <table className="table mb-0">
             <tbody>
               <tr>
-                <td>Тип:</td>
-                <td>{selectedType}</td>
-              </tr>
-              <tr>
-                <td>Бренд:</td>
-                <td>{selectedBrand}</td>
-              </tr>
-              <tr>
-                <td>Серия:</td>
-                <td>{selectedSeries}</td>
-              </tr>
-              <tr>
-                <td>Модель:</td>
-                <td>{selectedModel}</td>
-              </tr>
-              <tr>
-                <td>Толщина:</td>
-                <td>{selectedOptions.thickness}</td>
-              </tr>
-              <tr>
-                <td>Цвет:</td>
-                <td>{selectedOptions.color}</td>
+                <td>Товар:</td>
+                <td>{selectedSeries} {selectedModel} {selectedOptions.thickness} {selectedOptions.color.split(':')[0]}</td>
               </tr>
               <tr>
                 <td>Количество:</td>
-                <td>{quantity}</td>
+                <td>{selectedOptions['quantity']}</td>
               </tr>
               <tr>
                 <td>Общая стоимость:</td>
-                <td>{totalPrice * quantity} руб.</td>
+                <td>{totalPrice * selectedOptions['quantity']} руб.</td>
               </tr>
             </tbody>
           </table>

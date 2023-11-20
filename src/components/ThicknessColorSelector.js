@@ -4,22 +4,28 @@ import React, { useState } from 'react';
 const ThicknessColorSelector = ({
   thicknessOptions,
   colorOptions,
+  options,
   onSelect,
+  nexStep,
 }) => {
-  const [selectedThickness, setSelectedThickness] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
-  const [quantity, setQuantity] = useState(1);
+  const {thickness, color, quantity} = options;
+  const [selectedThickness, setSelectedThickness] = useState(thickness);
+  const [selectedColor, setSelectedColor] = useState(color);
+  const [selectedQuantity, setQuantity] = useState(quantity);
+
 
   const handleNext = () => {
     if (selectedThickness && selectedColor) {
       onSelect('thickness', selectedThickness);
       onSelect('color', selectedColor);
-      onSelect('quantity', quantity); 
+      onSelect('quantity', selectedQuantity);
+      nexStep(6);
       // Переход на следующий шаг
-    } else if (!thicknessOptions && !colorOptions){
-      onSelect('quantity', quantity);
-      onSelect('color', true);
-    } else{
+    } else if (!thicknessOptions && !colorOptions) {
+      onSelect('quantity', selectedQuantity);
+      onSelect('color', ':');
+      nexStep(6);
+    } else {
       alert('Пожалуйста, выберите толщину, цвет и количество');
     }
   };
@@ -29,56 +35,78 @@ const ThicknessColorSelector = ({
     handleNext();
   };
 
+  const handleQuantityChange = (newQuantity) => {
+    // Функция обновления количества
+    setQuantity(newQuantity);
+    onSelect('quantity', newQuantity);
+  };
+
+  const handleThicknessChange = (newThickness) => {
+    // Функция обновления толщины
+    setSelectedThickness(newThickness);
+    onSelect('thickness', newThickness);
+  };
+
+  const handleColorChange = (newColor) => {
+    // Функция обновления цвета
+    setSelectedColor(newColor);
+    onSelect('color', newColor);
+  };
+
   return (
     <div className="container mt-2">
-     
       <div className="row justify-content-center">
-      {thicknessOptions ? (<div className="col-12 text-center">
-          <h4>Толщина:</h4>
-          {thicknessOptions.map((thickness) => (
-            <button
-              key={thickness}
-              className={`btn btn-light ${
-                selectedThickness === thickness ? 'active' : ''
-              }`}
-              onClick={() => setSelectedThickness(thickness)}>
-              {thickness}
-            </button>
-          ))}
-        </div>): ''}
-        {colorOptions ? (<div className="col-12 text-center">
-          <h4>Цвет:</h4>
-          {colorOptions.map((color) => (
-            <button
-              key={color}
-              className={`btn ${
-                selectedColor === color ? 'active' : ''
-              }`}
-              style={{background: color.split(':')[1], color: '#fff' }}
-              onClick={() => setSelectedColor(color)}>
-              {color.split(':')[0]}
-            </button>
-          ))}
-        </div>): ''}
-     
+        <h2 className="text-center">Выберите параметры:</h2>
+        {thicknessOptions ? (
+          <div className="col-12 text-center">
+            <h4>Толщина:</h4>
+            {thicknessOptions.map((thickness) => (
+              <button
+                key={thickness}
+                className={`btn btn-light ${
+                  selectedThickness === thickness ? 'active' : ''
+                }`}
+                onClick={() => handleThicknessChange(thickness)}>
+                {thickness}
+              </button>
+            ))}
+          </div>
+        ) : (
+          ''
+        )}
+        {colorOptions ? (
+          <div className="col-12 text-center">
+            <h4>Цвет:</h4>
+            {colorOptions.map((color) => (
+              <button
+                key={color}
+                className={`btn ${selectedColor === color ? 'active' : ''}`}
+                style={{ background: color.split(':')[1], color: '#fff' }}
+                onClick={() => handleColorChange(color)}>
+                {color.split(':')[0]}
+              </button>
+            ))}
+          </div>
+        ) : (
+          ''
+        )}
         <div className="row justify-content-center mt-3 col-12 text-center">
           <h4>Количество:</h4>
           {[1, 2, 3, 4].map((quantityOption) => (
             <button
               key={quantityOption}
               className={`btn btn-light m-1 col-1 text-center ${
-                quantity === quantityOption ? 'active' : ''
+                selectedQuantity === quantityOption ? 'active' : ''
               }`}
-              onClick={() => setQuantity(quantityOption)}>
+              onClick={() => handleQuantityChange(quantityOption)}>
               {quantityOption}
             </button>
           ))}
         </div>
-        <button className="btn btn-primary mt-3 mx-auto  col-12" onClick={handleForward}>
-        Вперёд
-      </button>
+        <button className="btn btn-primary mt-3 mx-auto col-12" onClick={handleForward}>
+          Вперёд
+        </button>
       </div>
-      
     </div>
   );
 };

@@ -6,6 +6,7 @@ const Footer = ({ onSelect }) => {
     <div className="footer">
       <div className="whatsapp">
         <p>
+        По текущим заказам{' '}
          Whatsapp:{' '}
           <a href="https://wa.me/79013014363" class="link">
             +79013014363
