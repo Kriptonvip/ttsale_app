@@ -1,14 +1,15 @@
 // src/components/ModelSelector.js
 import React from 'react';
 
-const ModelSelector = ({ models, onSelect }) => {
+const ModelSelector = ({ models, onSelect, seriesName }) => {
+
   return (
     <div className="container mt-2">
       <h2 className="text-center">Выберите модель</h2>
       <div className="row justify-content-center">
         {models.map((model, index) => (
           <button key={index} className="btn btn-primary mx-2 col-3" onClick={() => onSelect(model)}>
-            {model}
+            {model === '' ? seriesName : model}
           </button>
         ))}
       </div>

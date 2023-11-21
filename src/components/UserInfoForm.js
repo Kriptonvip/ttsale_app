@@ -76,7 +76,7 @@ const UserInfoForm = ({ onSubmit }) => {
         <input className="col-8" type="email" onChange={(e) => setEmail(e.target.value)} />
         {/* Добавьте аналогичные проверки для email, если необходимо */}
       </div>
-      <button className="btn btn-primary mt-3 mx-auto d-block" onClick={handleSubmit}>
+      <button className="btn btn-primary mt-3 mx-auto d-block" onClick={handleSubmit} >
         Отправить заказ
       </button>
     </div>

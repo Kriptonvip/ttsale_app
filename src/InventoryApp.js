@@ -39,8 +39,13 @@ const InventoryApp = ({ data }) => {
   };
 
   const handleSelectModel = (model) => {
+    if(model === ''){
+        setSelectedModel(true);
+        setDisplayedStep(5);
+    } else {
     setSelectedModel(model);
     setDisplayedStep(5);
+    }
   };
 
   const handleSelectOptions = (type, value) => {
@@ -86,13 +91,23 @@ const InventoryApp = ({ data }) => {
     setSelectedBrand('');
     setSelectedSeries('');
     setSelectedModel('');
-    setSelectedOptions({ thickness: '', color: '', quantity : ''});
+    setSelectedOptions({ thickness: '', color: '', quantity : 1});
     setUserInfo(null);
     setTotalPrice(0);
     setDisplayedStep(1);
   };
+  const currentDate = new Date();
 
-  const handleBack = () => {
+  // Форматируем дату в строку "DD.MM.YYYY"
+  const formattedDate = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear()}`;
+
+  const getModelCountInSeries = () => {
+    const seriesData = data[selectedType][selectedBrand].series[selectedSeries];
+  
+    return seriesData ? seriesData.models.length : 0;
+  };
+
+    const handleBack = () => {
     // Можно добавить дополнительную логику перед переходом
     setDisplayedStep((prevStep) => prevStep - 1);
   };
@@ -115,15 +130,21 @@ const InventoryApp = ({ data }) => {
           onSelect={handleSelectSeries}
         />
       )}
-      {displayedStep === 4 && selectedSeries && (
-        <ModelSelector
-          models={
-            data[selectedType][selectedBrand].series[selectedSeries].models
-          }
-          onSelect={handleSelectModel}
-        />
-      )}
+      {displayedStep === 4 && selectedSeries &&  (
+    getModelCountInSeries() === 1 ? (
+      handleSelectModel(true)
+    ) : (
+      <ModelSelector
+        models={
+          data[selectedType][selectedBrand].series[selectedSeries].models
+        }
+        onSelect={handleSelectModel}
+        seriesName = {selectedSeries}
+      />
+    )
+  )}
       {displayedStep === 5 && selectedModel && (
+        
         <ThicknessColorSelector
           options = {selectedOptions}
           thicknessOptions={
@@ -136,13 +157,14 @@ const InventoryApp = ({ data }) => {
             data[selectedType][selectedBrand].series[selectedSeries].quantity
           }
           onSelect={handleSelectOptions}
-          nexStep = {setDisplayedStep}
+          nextStep = {setDisplayedStep}
         />
       )}
 
       {displayedStep === 6 && selectedOptions.color && (
         <UserInfoForm onSubmit={handleUserInfoSubmit} />
       )}
+      
       <div className="fixed-bottom cost-bar">
         <div className="container col-6">
           <p className="text-center">Цена: {totalPrice * selectedOptions['quantity']} руб.</p>
@@ -152,7 +174,7 @@ const InventoryApp = ({ data }) => {
       <div className="container mt-3">
         <div className="d-flex justify-content-center">
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary  me-1"
             onClick={handleBack}
             disabled={displayedStep === 1}>
             Назад
@@ -171,7 +193,7 @@ const InventoryApp = ({ data }) => {
             <tbody>
               <tr>
                 <td>Товар:</td>
-                <td>{selectedSeries} {selectedModel} {selectedOptions.thickness} {selectedOptions.color.split(':')[0]}</td>
+                <td>{selectedType ? `${selectedType} | ` : ''}{selectedBrand ? `${selectedBrand} | ` : ''}{selectedSeries} {selectedModel} {selectedOptions.thickness} {selectedOptions.color.split(':')[0]}</td>
               </tr>
               <tr>
                 <td>Количество:</td>
@@ -183,6 +205,7 @@ const InventoryApp = ({ data }) => {
               </tr>
             </tbody>
           </table>
+          <div className="date-info mx-auto d-block text-center mt-2">Цены и остатки действительны на {formattedDate}</div>
         </div>
       </div>
     

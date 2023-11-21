@@ -6,7 +6,7 @@ const ThicknessColorSelector = ({
   colorOptions,
   options,
   onSelect,
-  nexStep,
+  nextStep,
 }) => {
   const {thickness, color, quantity} = options;
   const [selectedThickness, setSelectedThickness] = useState(thickness);
@@ -19,12 +19,12 @@ const ThicknessColorSelector = ({
       onSelect('thickness', selectedThickness);
       onSelect('color', selectedColor);
       onSelect('quantity', selectedQuantity);
-      nexStep(6);
+      nextStep(6);
       // Переход на следующий шаг
     } else if (!thicknessOptions && !colorOptions) {
       onSelect('quantity', selectedQuantity);
       onSelect('color', ':');
-      nexStep(6);
+      nextStep(6);
     } else {
       alert('Пожалуйста, выберите толщину, цвет и количество');
     }
@@ -63,7 +63,7 @@ const ThicknessColorSelector = ({
             {thicknessOptions.map((thickness) => (
               <button
                 key={thickness}
-                className={`btn btn-light ${
+                className={`btn btn-outline-primary me-1 ${
                   selectedThickness === thickness ? 'active' : ''
                 }`}
                 onClick={() => handleThicknessChange(thickness)}>
@@ -75,12 +75,12 @@ const ThicknessColorSelector = ({
           ''
         )}
         {colorOptions ? (
-          <div className="col-12 text-center">
+          <div className="col-12 text-center ">
             <h4>Цвет:</h4>
             {colorOptions.map((color) => (
               <button
                 key={color}
-                className={`btn ${selectedColor === color ? 'active' : ''}`}
+                className={`btn  me-1  ${selectedColor === color ? 'active' : ''}`}
                 style={{ background: color.split(':')[1], color: '#fff' }}
                 onClick={() => handleColorChange(color)}>
                 {color.split(':')[0]}
@@ -95,7 +95,7 @@ const ThicknessColorSelector = ({
           {[1, 2, 3, 4].map((quantityOption) => (
             <button
               key={quantityOption}
-              className={`btn btn-light m-1 col-1 text-center ${
+              className={`btn btn-outline-secondary m-1 col-1 text-center ${
                 selectedQuantity === quantityOption ? 'active' : ''
               }`}
               onClick={() => handleQuantityChange(quantityOption)}>

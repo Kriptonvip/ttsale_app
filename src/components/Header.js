@@ -12,7 +12,7 @@ const Header = ({ onSelect }) => {
         </a>
       </div>
       <div className="address">
-        <p>Адрес г. Сочи, ул. Донская, 3/9</p>
+        <p>Адрес: г. Сочи, ул. Донская, 3/9</p>
       </div>
     </div>
     <div className="dealer-info">
